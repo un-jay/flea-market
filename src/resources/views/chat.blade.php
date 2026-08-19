@@ -96,7 +96,7 @@
             </div>
             <div class="main-container__chat">
                 @foreach ($chatMessages as $chatMessage)
-                    <div class="comment-data-set">
+                    <div class="comment-data-set @if($loop->last) last-data-set @endif">
                         @if ($chatMessage->sender_id == $chatter->id)
                             <div class="comment-data__profile right">
                                 <div class="comment-data__profile-name">
