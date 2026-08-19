@@ -1,0 +1,6 @@
+# MySQL container data (local dev only, must never be committed)
+docker/mysql/data/*
+!docker/mysql/data/.gitkeep
+
+# OS / editor
+.DS_Store
