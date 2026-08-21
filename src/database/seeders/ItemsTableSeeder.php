@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Faker\Provider\DateTime;
 
 class ItemsTableSeeder extends Seeder
 {
@@ -25,7 +24,7 @@ class ItemsTableSeeder extends Seeder
             'status' => 1,
             'brand_name' => 'Rolex',
             'is_sold' => 0,
-            'created_at' => DateTime::dateTimeThisDecade(),
+            'created_at' => now()->subDays(rand(0, 3650)),
             'updated_at' => now(),
         ]);
 
@@ -39,7 +38,7 @@ class ItemsTableSeeder extends Seeder
             'status' => 2,
             'brand_name' => 'Elecom',
             'is_sold' => 0,
-            'created_at' => DateTime::dateTimeThisDecade(),
+            'created_at' => now()->subDays(rand(0, 3650)),
             'updated_at' => now(),
         ]);
 
@@ -53,7 +52,7 @@ class ItemsTableSeeder extends Seeder
             'status' => 3,
             'brand_name' => 'JA',
             'is_sold' => 0,
-            'created_at' => DateTime::dateTimeThisDecade(),
+            'created_at' => now()->subDays(rand(0, 3650)),
             'updated_at' => now(),
         ]);
 
@@ -67,7 +66,7 @@ class ItemsTableSeeder extends Seeder
             'status' => 4,
             'brand_name' => 'Rolex',
             'is_sold' => 0,
-            'created_at' => DateTime::dateTimeThisDecade(),
+            'created_at' => now()->subDays(rand(0, 3650)),
             'updated_at' => now(),
         ]);
 
@@ -81,7 +80,7 @@ class ItemsTableSeeder extends Seeder
             'status' => 1,
             'brand_name' => 'Panasonic',
             'is_sold' => 1,
-            'created_at' => DateTime::dateTimeThisDecade(),
+            'created_at' => now()->subDays(rand(0, 3650)),
             'updated_at' => now(),
         ]);
 
@@ -95,7 +94,7 @@ class ItemsTableSeeder extends Seeder
             'status' => 2,
             'brand_name' => 'Elecom',
             'is_sold' => 0,
-            'created_at' => DateTime::dateTimeThisDecade(),
+            'created_at' => now()->subDays(rand(0, 3650)),
             'updated_at' => now(),
         ]);
 
@@ -109,7 +108,7 @@ class ItemsTableSeeder extends Seeder
             'status' => 3,
             'brand_name' => 'COACH',
             'is_sold' => 1,
-            'created_at' => DateTime::dateTimeThisDecade(),
+            'created_at' => now()->subDays(rand(0, 3650)),
             'updated_at' => now(),
         ]);
 
@@ -123,7 +122,7 @@ class ItemsTableSeeder extends Seeder
             'status' => 4,
             'brand_name' => 'THERMOS',
             'is_sold' => 0,
-            'created_at' => DateTime::dateTimeThisDecade(),
+            'created_at' => now()->subDays(rand(0, 3650)),
             'updated_at' => now(),
         ]);
 
@@ -137,7 +136,7 @@ class ItemsTableSeeder extends Seeder
             'status' => 1,
             'brand_name' => 'DeLonghi',
             'is_sold' => 0,
-            'created_at' => DateTime::dateTimeThisDecade(),
+            'created_at' => now()->subDays(rand(0, 3650)),
             'updated_at' => now(),
         ]);
 
@@ -151,7 +150,7 @@ class ItemsTableSeeder extends Seeder
             'status' => 2,
             'brand_name' => 'Shiseido',
             'is_sold' => 0,
-            'created_at' => DateTime::dateTimeThisDecade(),
+            'created_at' => now()->subDays(rand(0, 3650)),
             'updated_at' => now(),
         ]);
     }
