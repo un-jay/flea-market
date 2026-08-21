@@ -10,9 +10,12 @@ class TrustProxies extends Middleware
     /**
      * The trusted proxies for this application.
      *
+     * Render(本番)はTLSを終端してからコンテナへHTTPで転送するため、
+     * X-Forwarded-Protoを信用しないとasset()等がhttp://を生成してしまう。
+     *
      * @var array<int, string>|string|null
      */
-    protected $proxies;
+    protected $proxies = '*';
 
     /**
      * The headers that should be used to detect proxies.
