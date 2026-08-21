@@ -13,6 +13,9 @@ php artisan view:cache
 
 php artisan migrate --force
 
+# TODO: ダミーデータ投入用の一時措置。投入確認後にこの1行は削除すること。
+php artisan db:seed --force || true
+
 if [ ! -L /var/www/html/public/storage ]; then
     php artisan storage:link
 fi
