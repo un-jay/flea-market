@@ -24,10 +24,14 @@
             <nav class="header-nav">
                 <ul class="header-nav__list">
                     <li class="header-nav__item">
-                        <form class="form" action="/logout" method="post">
-                            @csrf
-                            <button class="header-nav__button">ログアウト</button>
-                        </form>
+                        @auth
+                            <form class="form" action="/logout" method="post">
+                                @csrf
+                                <button class="header-nav__button">ログアウト</button>
+                            </form>
+                        @else
+                            <a href="/login">ログイン</a>
+                        @endauth
                     </li>
                     <li class="header-nav__item"><a href="/mypage?tab=sell">マイページ</a></li>
                     <li class="header-nav__item reversible"><a href="/sell">出品</a></li>
