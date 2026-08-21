@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Faker\Provider\DateTime;
 
 class PurchasesTableSeeder extends Seeder
 {
@@ -22,7 +21,7 @@ class PurchasesTableSeeder extends Seeder
             'shipping_address' => '東京都世田谷区玉川1-14-1',
             'shipping_building' => '楽天クリムゾンハウス',
             'payment_method' => '1',
-            'created_at' => DateTime::dateTimeThisDecade(),
+            'created_at' => now()->subDays(rand(0, 3650)),
             'updated_at' => now(),
         ]);
 
@@ -33,7 +32,7 @@ class PurchasesTableSeeder extends Seeder
             'shipping_address' => '東京都世田谷区玉川1-14-1',
             'shipping_building' => '楽天クリムゾンハウス',
             'payment_method' => '2',
-            'created_at' => DateTime::dateTimeThisDecade(),
+            'created_at' => now()->subDays(rand(0, 3650)),
             'updated_at' => now(),
         ]);
     }

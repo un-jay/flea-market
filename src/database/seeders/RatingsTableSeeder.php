@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Faker\Provider\DateTime;
 
 class RatingsTableSeeder extends Seeder
 {
@@ -21,7 +20,7 @@ class RatingsTableSeeder extends Seeder
             "evaluated_id" => 1,
             "item_id" => 5,
             "score" => 4,
-            'created_at' => DateTime::dateTimeThisDecade(),
+            'created_at' => now()->subDays(rand(0, 3650)),
             'updated_at' => now(),
         ]);
 
@@ -30,7 +29,7 @@ class RatingsTableSeeder extends Seeder
             "evaluated_id" => 2,
             "item_id" => 7,
             "score" => 3,
-            'created_at' => DateTime::dateTimeThisDecade(),
+            'created_at' => now()->subDays(rand(0, 3650)),
             'updated_at' => now(),
         ]);
     }

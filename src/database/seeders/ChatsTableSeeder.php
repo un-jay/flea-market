@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Faker\Provider\DateTime;
 
 class ChatsTableSeeder extends Seeder
 {
@@ -20,7 +19,7 @@ class ChatsTableSeeder extends Seeder
             'buyer_id' => 3,
             'seller_id' => 1,
             'item_id' => 1,
-            'created_at' => DateTime::dateTimeThisDecade(),
+            'created_at' => now()->subDays(rand(0, 3650)),
             'updated_at' => now(),
         ]);
 
@@ -29,7 +28,7 @@ class ChatsTableSeeder extends Seeder
             'buyer_id' => 3,
             'seller_id' => 2,
             'item_id' => 10,
-            'created_at' => DateTime::dateTimeThisDecade(),
+            'created_at' => now()->subDays(rand(0, 3650)),
             'updated_at' => now(),
         ]);
     }

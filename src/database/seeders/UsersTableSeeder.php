@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Faker\Provider\DateTime;
 
 class UsersTableSeeder extends Seeder
 {
@@ -24,7 +23,7 @@ class UsersTableSeeder extends Seeder
             'postal_code' => '106-6118',
             'address' => '東京都港区六本木6-10-1',
             'building' => '六本木ヒルズ森タワー',
-            'created_at' => DateTime::dateTimeThisDecade(), // ランダムな過去の日付と時間を挿入
+            'created_at' => now()->subDays(rand(0, 3650)), // ランダムな過去の日付と時間を挿入
             'updated_at' => now(),
         ]);
 
@@ -33,7 +32,7 @@ class UsersTableSeeder extends Seeder
             'user_name' => 'amazon',
             'email' => 'amazon@coachtech.com',
             'password' => Hash::make('password'),
-            'created_at' => DateTime::dateTimeThisDecade(), // ランダムな過去の日付と時間を挿入
+            'created_at' => now()->subDays(rand(0, 3650)), // ランダムな過去の日付と時間を挿入
             'updated_at' => now(),
         ]);
 
@@ -45,7 +44,7 @@ class UsersTableSeeder extends Seeder
             'postal_code' => '158-0094',
             'address' => '東京都世田谷区玉川1-14-1',
             'building' => '楽天クリムゾンハウス',
-            'created_at' => DateTime::dateTimeThisDecade(), // ランダムな過去の日付と時間を挿入
+            'created_at' => now()->subDays(rand(0, 3650)), // ランダムな過去の日付と時間を挿入
             'updated_at' => now(),
         ]);
     }
