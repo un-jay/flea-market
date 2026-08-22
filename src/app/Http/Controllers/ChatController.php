@@ -117,13 +117,16 @@ class ChatController extends Controller
 
     public function update(ChatMessageRequest $request)
     {
-        $editedChatMessage = $request->message;
+        $thisChatMessage = ChatMessage::where('id', $request->message_id)->first();
 
-        ChatMessage::where('id', $request->message_id)->first()->update([
-            'message' => $editedChatMessage,
-            'is_read'
+        if ($thisChatMessage === null || $thisChatMessage->sender_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $thisChatMessage->update([
+            'message' => $request->message,
         ]);
-        ChatMessage::where('id', $request->message_id)->first()->touch();
+        $thisChatMessage->touch();
 
         return back();
     }
@@ -131,6 +134,11 @@ class ChatController extends Controller
     public function delete(Request $request)
     {
         $thisChatMessage = ChatMessage::where('id', $request->message_id)->first();
+
+        if ($thisChatMessage === null || $thisChatMessage->sender_id !== Auth::id()) {
+            abort(403);
+        }
+
         $thisChatNotification = ChatNotification::where('created_at', $thisChatMessage->created_at)->first();
 
         if ($thisChatNotification->is_read === false && $thisChatNotification->message_count > 1) {
@@ -170,6 +178,6 @@ class ChatController extends Controller
         $mailMessage = '取引が完了しました';
         Mail::To($partner->email)->send(new CompleteMail($mailMessage));
 
-        return redirect('/mypage?tab=sell');
+        return redirect('/');
     }
 }
