@@ -24,10 +24,11 @@ class MypageController extends Controller
             foreach ($ratings as $rating) {
                 $ratingScoreSum += $rating->score;
             }
-            $ratingScoreAverage = $ratingScoreSum / count($ratings);
+            $ratingScoreAverage = round($ratingScoreSum / count($ratings));
         } else {
             $ratingScoreAverage = 0;
         }
+        $hasRatings = $ratings->isNotEmpty();
 
         // 取引商品の新規通知数
         $chats = Chat::where('is_completed', '=', false)
@@ -76,6 +77,6 @@ class MypageController extends Controller
             $isTradeItem = TRUE;
         }
 
-        return view('mypage', compact('user', 'ratingScoreAverage', 'chatNotificationCounts', 'chatNotificationCountSum', 'items', 'isSellItem', 'isBuyItem', 'isTradeItem'));
+        return view('mypage', compact('user', 'ratingScoreAverage', 'hasRatings', 'chatNotificationCounts', 'chatNotificationCountSum', 'items', 'isSellItem', 'isBuyItem', 'isTradeItem'));
     }
 }

@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="main-container__header-nav">
-                    @if ($isBuyer)
+                    @if ($isBuyer || $thisChat->is_completed)
                         <button class="main-container__header-nav--btn" id="complete-button">取引完了する</button>
                         <div class="main-container__complete-modal" id="complete-modal">
                             <div class="main-container__complete-modal--content" id="modal-content">
@@ -270,17 +270,19 @@
             const stars = document.querySelectorAll('.star');
             const ratingInput = document.getElementById('rating');
 
-            // モーダル表示
-            completeBtn.addEventListener('click', () => {
-                completeModal.style.display = 'flex';
-            });
+            if (completeBtn && completeModal && modalContent) {
+                // モーダル表示
+                completeBtn.addEventListener('click', () => {
+                    completeModal.style.display = 'flex';
+                });
 
-            // モーダル外をクリックしたら閉じる
-            completeModal.addEventListener('click', (event) => {
-                if (!modalContent.contains(event.target)) {
-                    completeModal.style.display = 'none';
-                }
-            });
+                // モーダル外をクリックしたら閉じる
+                completeModal.addEventListener('click', (event) => {
+                    if (!modalContent.contains(event.target)) {
+                        completeModal.style.display = 'none';
+                    }
+                });
+            }
 
             // 星の評価処理
             stars.forEach((star, index) => {

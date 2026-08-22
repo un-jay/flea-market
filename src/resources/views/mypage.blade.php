@@ -48,15 +48,17 @@
                 </div>
                 <div class="container-top__profile--name-rating">
                     <div class="profile-name">{{ $user->user_name }}</div>
-                    <div class="rating">
-                        @foreach (range(1, 5) as $i)
-                            @if ($i <= $ratingScoreAverage)
-                                <img src="{{ asset('images/star_sharp_yellow.svg') }}" alt="">
-                            @else
-                                <img src="{{ asset('images/star_sharp_gray.svg') }}" alt="">
-                            @endif
-                        @endforeach
-                    </div>
+                    @if ($hasRatings)
+                        <div class="rating">
+                            @foreach (range(1, 5) as $i)
+                                @if ($i <= $ratingScoreAverage)
+                                    <img src="{{ asset('images/star_sharp_yellow.svg') }}" alt="">
+                                @else
+                                    <img src="{{ asset('images/star_sharp_gray.svg') }}" alt="">
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
                 <div class="container-top__profile--nav">
                     <a href="/mypage/profile">プロフィールを編集</a>
