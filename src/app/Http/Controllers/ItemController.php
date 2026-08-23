@@ -17,7 +17,7 @@ class ItemController extends Controller
     public function item($item_id)
     {
         $user = Auth::user();
-        $item = Item::where('id', $item_id)->first();
+        $item = Item::findOrFail($item_id);
         $likes = Like::where('item_id', $item_id)->get();
         $is_like = FALSE;
         $comments = Comment::where('item_id', $item_id)->get();
