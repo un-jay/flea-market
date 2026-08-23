@@ -297,7 +297,7 @@ main {
 }
 
 .create-form .form__btn-submit:disabled {
-    opacity: 0.4;
+    opacity: 0.15;
     cursor: not-allowed;
 }
 
