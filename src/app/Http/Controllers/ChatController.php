@@ -7,6 +7,7 @@ use App\Http\Requests\ChatMessageRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Mail\CompleteMail;
 use App\Models\Item;
 use App\Models\Chat;
@@ -26,7 +27,7 @@ class ChatController extends Controller
             })
             ->first();
         if ($thisChat === null) {
-            $sellerId = Item::where('id', $request->item_id)->first()->user_id;
+            $sellerId = Item::findOrFail($request->item_id)->user_id;
             $chatData->chatStore($chatter->id, $sellerId, $request->item_id);
             $thisChat = Chat::where('item_id', $request->item_id)
                 ->where(function ($query) use ($chatter) {
@@ -195,8 +196,18 @@ class ChatController extends Controller
         });
 
         if (!$alreadyRated) {
-            $mailMessage = '取引が完了しました';
-            Mail::To($partner->email)->send(new CompleteMail($mailMessage));
+            // 取引完了・評価登録は既に成功しているため、メール送信の失敗が
+            // それらを巻き込んで500エラーにならないよう分離する
+            try {
+                $mailMessage = '取引が完了しました';
+                Mail::To($partner->email)->send(new CompleteMail($mailMessage));
+            } catch (\Throwable $e) {
+                Log::error('取引完了メールの送信に失敗しました', [
+                    'chat_id' => $thisChat->id,
+                    'to' => $partner->email,
+                    'exception' => $e,
+                ]);
+            }
         }
 
         return redirect('/');

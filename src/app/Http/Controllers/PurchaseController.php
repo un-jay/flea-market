@@ -16,7 +16,7 @@ class PurchaseController extends Controller
     public function purchase($item_id)
     {
         $user = Auth::user();
-        $item = Item::where('id', $item_id)->first();
+        $item = Item::findOrFail($item_id);
 
         return view('purchase', compact('user', 'item'));
     }
@@ -32,7 +32,7 @@ class PurchaseController extends Controller
         // 購入処理が複数回実行される可能性が残る。行ロックを取って「既に売却済みか」を
         // 確認してから購入処理を行うことで、同じ商品の購入レコードが重複作成されるのを防ぐ。
         DB::transaction(function () use ($user, $item_id, $data, $purchase_data) {
-            $item = Item::where('id', $item_id)->lockForUpdate()->first();
+            $item = Item::where('id', $item_id)->lockForUpdate()->firstOrFail();
 
             if ($item->is_sold) {
                 // 既に売却済み（＝直前のリクエストで購入処理済み）なら何もしない
