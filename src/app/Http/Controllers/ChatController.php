@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\ChatMessageRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CompleteMail;
 use App\Models\Item;
@@ -168,15 +169,35 @@ class ChatController extends Controller
             $partner = User::where('id', $thisChat->buyer_id)->first();
         }
 
-        $ratingData->ratingStore($chatter->id, $partner->id, $request->item_id, $request->score);
+        // 二重送信防止（仕様書には無い対応）：購入処理と同様、連打や通信の遅延・リトライで
+        // 同じ相手への評価が複数回登録されてしまう可能性があるため、行ロックを取って
+        // 「自分がこの取引を既に評価済みか」を確認してから登録する。
+        $alreadyRated = DB::transaction(function () use ($thisChat, $chatter, $partner, $request, $ratingData) {
+            $lockedChat = Chat::where('id', $thisChat->id)->lockForUpdate()->first();
 
-        $thisChat->update([
-            'is_completed' => true,
-        ]);
-        $thisChat->touch();
+            $existingRating = Rating::where('evaluator_id', $chatter->id)
+                ->where('item_id', $request->item_id)
+                ->exists();
 
-        $mailMessage = '取引が完了しました';
-        Mail::To($partner->email)->send(new CompleteMail($mailMessage));
+            if ($existingRating) {
+                // 既に評価済み（＝直前のリクエストで登録済み）なら何もしない
+                return true;
+            }
+
+            $ratingData->ratingStore($chatter->id, $partner->id, $request->item_id, $request->score);
+
+            $lockedChat->update([
+                'is_completed' => true,
+            ]);
+            $lockedChat->touch();
+
+            return false;
+        });
+
+        if (!$alreadyRated) {
+            $mailMessage = '取引が完了しました';
+            Mail::To($partner->email)->send(new CompleteMail($mailMessage));
+        }
 
         return redirect('/');
     }

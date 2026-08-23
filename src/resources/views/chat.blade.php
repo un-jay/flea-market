@@ -67,7 +67,7 @@
                                 <div class="main-container__complete-modal--content-title">
                                     取引が完了しました。
                                 </div>
-                                <form action="/chat/{{$thisItem->id}}/complete" method="POST">
+                                <form id="rating-form" action="/chat/{{$thisItem->id}}/complete" method="POST">
                                     @csrf
                                     <div id="star-rating" class="star-rating">
                                         <div class="star-rating__title">今回の取引はどうでしたか？</div>
@@ -299,6 +299,18 @@
                     });
                 });
             });
+
+            /*========================================
+            評価送信フォームの二重送信防止
+            連打防止のため送信時にボタンを無効化する
+            （サーバー側の対策はChatController::complete()を参照）
+            ========================================*/
+            const ratingForm = document.getElementById('rating-form');
+            if (ratingForm) {
+                ratingForm.addEventListener('submit', () => {
+                    ratingForm.querySelector('.form__btn-submit').disabled = true;
+                });
+            }
 
             /*========================================
             入力情報保持
