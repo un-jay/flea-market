@@ -332,6 +332,16 @@
             inputField.form.addEventListener('submit', () => {
                 localStorage.removeItem(inputKey);
             });
+
+            /*========================================
+            チャット送信フォームの二重送信防止（仕様書には無い対応）
+            連打で同じメッセージが複数送信されるのを防ぐため、
+            送信時にボタンを無効化する。メッセージ内容の重複チェックは
+            サーバー側では行わない（同じ内容を意図的に連投したい場合もあるため）
+            ========================================*/
+            inputField.form.addEventListener('submit', () => {
+                inputField.form.querySelector('.form__btn-submit').disabled = true;
+            });
         });
     </script>
 </body>
