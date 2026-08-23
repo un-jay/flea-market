@@ -80,17 +80,16 @@ class ItemController extends Controller
     }
 
     // いいね削除機能
-    public function destroyLike()
+    public function destroyLike(Request $request, Like $like)
     {
         $user = Auth::user();
-        $like = Like::where('user_id', $user->id)->first();
-        $item_id = $like->item_id;
-        $is_like = $like->isLike($user->id, $item_id);
+        $item_id = $request->item_id;
+        $thisLike = Like::where('user_id', $user->id)->where('item_id', $item_id)->first();
 
-        if($is_like) {
-            $like->likeDestroy($like->id);
-            return back();
+        if ($thisLike !== null) {
+            $like->likeDestroy($thisLike->id);
         }
+
         return back();
     }
 }
