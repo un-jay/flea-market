@@ -37,7 +37,7 @@
 
     <main>
         <div class="container">
-            <form action="/purchase/{{$item->id}}/create" method="post">
+            <form id="purchase-form" action="/purchase/{{$item->id}}/create" method="post">
                 @csrf
                 <div class="left-container">
                     <div class="under-bar-section">
@@ -153,6 +153,19 @@
                     select.classList.remove('open');
                 }
             });
+        });
+
+        /*========================================
+        二重送信防止
+        ボタン連打やダブルタップで購入リクエストが複数飛ぶと、
+        同じ商品に対して購入レコードが重複作成されてしまうため、
+        送信時にボタンを無効化してクライアント側でも抑止する
+        （サーバー側の対策はPurchaseController::create()を参照）
+        ========================================*/
+        const purchaseForm = document.getElementById('purchase-form');
+        const purchaseSubmitButton = purchaseForm.querySelector('.form__btn-submit');
+        purchaseForm.addEventListener('submit', () => {
+            purchaseSubmitButton.disabled = true;
         });
     </script>
 </body>
