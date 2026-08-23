@@ -296,6 +296,11 @@ main {
     cursor: pointer;
 }
 
+.create-form .form__btn-submit:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 .create-form .form__btn-submit img {
     height: 35px;
 }
@@ -394,4 +399,9 @@ main {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.main-container__complete-modal--content .form__btn-submit:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }

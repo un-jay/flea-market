@@ -242,6 +242,11 @@ tr td:last-child{
     border: none;
 }
 
+.form__btn-submit:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
 .form-item__error {
     padding-left: 20px;
 }
