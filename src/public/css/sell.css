@@ -264,3 +264,8 @@ textarea {
     font-weight: bold;
     border: none;
 }
+
+.form__btn-submit:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
