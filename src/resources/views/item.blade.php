@@ -149,7 +149,7 @@
                             <button class="form__btn-submit" type="submit">コメントを送信する</button>
                         </div>
                     </form>
-                </di>
+                </div>
             </div>
         </div>
     </main>
