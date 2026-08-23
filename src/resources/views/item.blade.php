@@ -135,7 +135,7 @@
                             </div>
                         </div>
                     @endforeach
-                    <form action="/item/{{$item->id}}/comment" class="comment-form" method="post">
+                    <form id="comment-form" action="/item/{{$item->id}}/comment" class="comment-form" method="post">
                         @csrf
                         <label class="form-item__ttl">商品へのコメント</label>
                         <textarea class="form-item__input" name="content" value="{{ old('content') }}"></textarea>
@@ -153,5 +153,21 @@
             </div>
         </div>
     </main>
+
+    <script>
+        /*========================================
+        コメント投稿フォームの二重送信防止（仕様書には無い対応）
+        連打で同じコメントが複数投稿されてしまうのを防ぐため、
+        送信時にボタンを無効化する
+        ========================================*/
+        document.addEventListener('DOMContentLoaded', function () {
+            const commentForm = document.getElementById('comment-form');
+            if (commentForm) {
+                commentForm.addEventListener('submit', () => {
+                    commentForm.querySelector('.form__btn-submit').disabled = true;
+                });
+            }
+        });
+    </script>
 </body>
 </html>

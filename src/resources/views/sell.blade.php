@@ -38,7 +38,7 @@
     <main>
         <div class="container">
             <div class="container__ttl">商品の出品</div>
-            <form class="create-form" action="/sell/create" method="post" enctype="multipart/form-data">
+            <form id="sell-form" class="create-form" action="/sell/create" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="form-item">
                     <label class="form-item__ttl" for="item_img">商品画像</label>
@@ -219,6 +219,16 @@
                     select.classList.remove('open');
                 }
             });
+        });
+
+        /*========================================
+        出品フォームの二重送信防止（仕様書には無い対応）
+        連打で同じ商品が複数出品されてしまうのを防ぐため、
+        送信時にボタンを無効化する
+        ========================================*/
+        const sellForm = document.getElementById('sell-form');
+        sellForm.addEventListener('submit', () => {
+            sellForm.querySelector('.form__btn-submit').disabled = true;
         });
     </script>
 

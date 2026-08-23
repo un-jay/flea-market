@@ -280,3 +280,8 @@
     font-weight: bold;
     border: none;
 }
+
+.container-right .comment-data .comment-form .form__btn .form__btn-submit:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
