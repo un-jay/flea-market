@@ -57,7 +57,11 @@ class ChatController extends Controller
             ->groupBy('items.id')
             ->orderByDesc('latest_message_at')
             ->get();
-        $thisItem = $items->where('id', $request->item_id)->first();
+        // $itemsは完了済みの取引を除いたサイドバー表示用の一覧なので、
+        // 取引が完了した後に自分のチャット画面を開くと$thisItemがそこに
+        // 含まれず取得できなくなってしまう。現在表示中の商品は完了有無に
+        // 関わらず取得できるよう、別クエリで取得する
+        $thisItem = Item::findOrFail($thisChat->item_id);
 
         return view('chat', compact(
             'chatter',

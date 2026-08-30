@@ -97,10 +97,12 @@ class User extends Authenticatable
         return $this->hasMany(Rating::class, 'evaluated_id');
     }
 
-    public function profileUpload($data, $dir, $file_name)
+    public function profileUpload($data, $dir = null, $file_name = null)
     {
         $this->user_name = $data['user_name'];
-        $this->profile_image = 'storage/' . $dir . '/' . $file_name;
+        if ($dir !== null && $file_name !== null) {
+            $this->profile_image = 'storage/' . $dir . '/' . $file_name;
+        }
         $this->postal_code = $data['postal_code'];
         $this->address = $data['address'];
         $this->building = $data['building'];
