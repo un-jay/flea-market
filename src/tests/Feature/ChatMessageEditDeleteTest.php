@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Chat;
 use App\Models\ChatMessage;
+use App\Models\ChatNotification;
 use App\Models\Item;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -33,6 +34,16 @@ class ChatMessageEditDeleteTest extends TestCase
             'sender_id' => $buyer->id,
             'message' => '編集前のメッセージ',
         ]);
+        // delete()は同じcreated_atのChatNotificationが存在する前提のため、
+        // 実際の送信フロー(ChatController::create)と同様にペアで作成する
+        $notification = ChatNotification::create([
+            'chat_id' => $chat->id,
+            'receiver_id' => $seller->id,
+            'message_count' => 1,
+            'is_read' => false,
+        ]);
+        $notification->created_at = $message->created_at;
+        $notification->save();
 
         return [$buyer, $seller, $item, $chat, $message];
     }
