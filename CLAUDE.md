@@ -26,6 +26,29 @@ Laravel製フリマアプリ。プログラミングスクールの卒業課題�
   再起動・再デプロイのたびに消える可能性がある。
 - 本番のメールは `MAIL_MAILER=log`。実際の送信はしていない（会員登録のメール認証は動かない）。
 
+## テスト
+- `src/tests/Feature/` に案件シートのテストケース一覧（全15項目）・機能要件FN001〜FN016
+  （取引チャット・評価）に基づくFeatureテストを整備済み（計71件、`docker-compose exec php bash` →
+  `php artisan test` で実行）。
+- `phpunit.xml` はSQLite（インメモリ）を使う設定にしてある。ローカルMySQL開発用DBには接続しない
+  （RefreshDatabaseで開発データが消えるのを防ぐため）。
+- `docker/php/Dockerfile` にテスト用の `pdo_sqlite`・`gd`（`UploadedFile::fake()->image()`用）拡張を
+  追加済み。ローカルの通常動作（pdo_mysql）には影響しない。
+- `UserFactory`/`ItemFactory` は実際のスキーマ（`user_name`列など）に合わせてある。
+
+## 未対応で気づいている軽微な不具合（優先度低）
+- `Item::user()`（app/Models/Item.php）が `belongsTo(Like::class)` になっている（本来は
+  `belongsTo(User::class)`）。現状このリレーションはどこからも呼ばれておらず実害なし。
+- `ChatController::delete()` が、削除対象メッセージと同じ`created_at`の`ChatNotification`を
+  タイムスタンプ一致で探している。外部キーではなくタイムスタンプ一致という設計は本質的に脆い
+  （実運用ではほぼ同時に作られるため今のところ問題は出ていない）。
+- CSSに `@media` クエリが無く、レスポンシブ対応（PC/タブレット崩れ対策）が意図通り機能しているか
+  未検証。
+
 ## 注意
 - `docker/mysql/data` はローカルMySQLの実データなので `.gitignore` で除外済み。今後もコミットしないこと。
 - `.env` はコミットしない（`src/.gitignore` で除外済み）。秘匿情報はハードコーディングしない。
+- この作業環境（WSL）には`docker`コマンド・DBドライバが無く、Claude側ではテストやアプリの実行が
+  できない。動作確認は必ずユーザー側のDocker環境で行ってもらう。
+- git運用は「featureブランチを切る→コミット→push→PR文案を提示→ユーザーがGitHub上でマージ・
+  ブランチ削除→ローカルでmainをfast-forward同期→次の作業」を1サイクルとして繰り返している。
