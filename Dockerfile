@@ -2,7 +2,7 @@
 # ローカル開発は docker-compose.yml + docker/php/Dockerfile (nginx + php-fpm) を使うため、
 # こちらには影響しない。Renderは単一コンテナで1つのポートをリッスンする必要があるため、
 # Apache + PHPを1コンテナにまとめた構成にしている。
-FROM php:8.2-apache
+FROM php:8.2.35-apache
 
 RUN apt-get update && apt-get install -y \
         libpq-dev \
